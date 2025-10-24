@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mess Mate - IIIT NR 🍔</title>
+  <style>
+    /* (Your existing CSS - unchanged except minor spacing for readability) */
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{
+      font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      background: linear-gradient(135deg,#FFF5E1 0%,#FFE5B4 50%,#FFDAB9 100%);
+      min-height:100vh; position:relative; overflow-x:hidden;
+    }
+    body::before{
+      content:'🍔 🍕 🍟 🌮 🍗 🥤 🍩 🌭 🍦 🥗 🍱 🍜 🍛 🥙 🌯';
+      position:fixed; top:0; left:0; width:100%; font-size:40px; opacity:0.12;
+      animation:floatFood 60s linear infinite; z-index:0; white-space:nowrap;
+    }
+    @keyframes floatFood{0%{transform:translateX(0);}100%{transform:translateX(-50%)}}
+    .shape{position:fixed;border-radius:50%;opacity:0.12;z-index:0;animation:float 20s ease-in-out infinite}
+    .shape1{width:300px;height:300px;background:#FF6B6B;top:10%;left:-150px;animation-delay:0s}
+    .shape2{width:200px;height:200px;background:#FDB827;bottom:20%;right:-100px;animation-delay:5s}
+    .shape3{width:250px;height:250px;background:#4ECDC4;top:50%;right:10%;animation-delay:10s}
+    @keyframes float{0%,100%{transform:translate(0,0) rotate(0deg)}33%{transform:translate(50px,-50px) rotate(120deg)}66%{transform:translate(-50px,50px) rotate(240deg)}}
+
+    /* LOGIN */
+    .login-page{display:flex;justify-content:center;align-items:center;min-height:100vh;padding:20px;position:relative;z-index:1}
+    .login-box{background:linear-gradient(135deg,#FF6B6B 0%,#FF8E53 100%);padding:50px 40px;border-radius:30px;box-shadow:0 20px 60px rgba(255,107,107,.4);text-align:center;max-width:450px;width:100%;animation:bounceIn .8s ease-out;position:relative;overflow:hidden}
+    .login-box::before{content:'🍽️';position:absolute;font-size:200px;top:-80px;right:-60px;opacity:.2;animation:rotate 20s linear infinite}
+    @keyframes bounceIn{0%{opacity:0;transform:scale(.3)}50%{transform:scale(1.05)}100%{opacity:1;transform:scale(1)}}
+    @keyframes rotate{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+    .login-box h1{color:#fff;font-size:3.2em;font-weight:900;margin-bottom:10px;text-shadow:3px 3px 6px rgba(0,0,0,.2)}
+    .login-box p{Color:rgba(255,255,255,.95);font-size:1.1em;margin-bottom:25px;font-weight:600}
+    .google-btn{background:#fff;color:#FF6B6B;border:none;padding:16px 28px;border-radius:50px;box-sizing:border-box;font-size:18px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:12px;transition:all .3s;box-shadow:0 8px 25px rgba(0,0,0,.2);width:100%}
+    .google-btn:hover{transform:translateY(-5px) scale(1.02);box-shadow:0 15px 40px rgba(0,0,0,.3)}
+    .login-hint{color:rgba(255,255,255,.95);margin-top:16px;font-size:14px;font-weight:600}
+    .error-message{background:rgba(255,255,255,.95);color:#FF6B6B;padding:12px;border-radius:12px;margin-top:14px;font-weight:600;display:none}
+
+    /* APP */
+    .app{display:none;position:relative;z-index:1}
+
+    /* NAV */
+    .navbar{background:linear-gradient(135deg,#FF6B6B 0%,#FF8E53 100%);padding:18px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(255,107,107,.3);border-radius:0 0 20px 20px}
+    .navbar h1{color:white;font-size:1.6em;font-weight:900;cursor:pointer;text-shadow:2px 2px 4px rgba(0,0,0,.2);animation:pulse 2s ease-in-out infinite}
+    @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}
+    .nav-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+    .user-email{color:#fff;font-size:.9em;font-weight:600;background:rgba(255,255,255,.2);padding:8px 12px;border-radius:20px;backdrop-filter:blur(6px)}
+    .logout-btn{background:#fff;color:#FF6B6B;border:none;padding:8px 18px;border-radius:20px;font-weight:700;cursor:pointer;box-shadow:0 4px 15px rgba(0,0,0,.2)}
+    .logout-btn:hover{transform:translateY(-3px)}
+    /* added small nav buttons style (keeps visual harmony) */
+    .nav-small-btn{background:rgba(255,255,255,0.95);color:#FF6B6B;border:none;padding:8px 14px;border-radius:18px;font-weight:800;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.12)}
+    .nav-small-btn:hover{transform:translateY(-3px)}
+
+    /* Landing */
+    .landing-page{padding:30px 18px;max-width:1200px;margin:0 auto}
+    .hero-title{text-align:center;font-size:clamp(2em,6vw,3.2em);font-weight:900;margin-bottom:10px;background:linear-gradient(135deg,#FF6B6B,#FDB827,#4ECDC4);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .hero-subtitle{text-align:center;color:#FF6B6B;margin-bottom:30px;font-weight:700}
+    .hero-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px;margin-bottom:30px}
+    .hero-card{background:#fff;border-radius:24px;padding:30px;cursor:pointer;transition:all .35s;box-shadow:0 10px 40px rgba(0,0,0,.12);position:relative;min-height:300px;display:flex;flex-direction:column;justify-content:space-between}
+    .hero-card:hover{transform:translateY(-12px) scale(1.01);box-shadow:0 20px 60px rgba(0,0,0,.18)}
+    .card-icon{font-size:4.6em;margin-bottom:14px;animation:bounce 2s ease-in-out infinite}
+    @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+    .card-title{font-size:clamp(1.4em,3.2vw,2.1em);font-weight:900;color:#2D3436}
+    .card-description{color:#636E72;margin-bottom:16px;line-height:1.6;font-weight:600}
+    .card-cta{background:linear-gradient(135deg,#FF6B6B,#FF8E53);color:#fff;border:none;padding:12px 24px;border-radius:40px;font-weight:800;cursor:pointer}
+
+    /* Dine-in / Menu / Cart */
+    .dine-in-page,.raman-page{display:none;padding:20px;max-width:1400px;margin:0 auto}
+    .back-btn{background:linear-gradient(135deg,#4ECDC4,#44A08D);color:#fff;border:none;padding:10px 18px;border-radius:20px;font-weight:800;cursor:pointer;margin-bottom:20px}
+    .dine-in-container{display:grid;grid-template-columns:1fr;gap:22px}
+    @media(min-width:1024px){.dine-in-container{grid-template-columns:2fr 1fr}}
+    .menu-section{background:#fff;padding:22px;border-radius:24px;box-shadow:0 10px 40px rgba(0,0,0,.08)}
+    .category{margin-bottom:28px}
+    .category h2{font-size:1.4em;font-weight:900;color:#FF6B6B;margin-bottom:16px;padding-bottom:10px;border-bottom:4px solid #FDB827;display:inline-block}
+    .menu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px}
+    .menu-item{background:linear-gradient(135deg,#FFF9F0,#FFEED9);border-radius:20px;padding:14px;cursor:pointer;transition:all .25s;position:relative}
+    .menu-item:hover{transform:translateY(-6px);box-shadow:0 12px 30px rgba(253,184,39,.2)}
+    .item-name{font-size:1.1em;font-weight:800;color:#2D3436;margin-bottom:6px}
+    .item-price{font-size:1.4em;color:#00B894;font-weight:900;margin-bottom:10px}
+    .add-btn{background:linear-gradient(135deg,#00B894,#00D2A0);color:#fff;border:none;padding:10px;border-radius:14px;font-weight:800;cursor:pointer;width:100%}
+
+    .cart-section{background:#fff;padding:18px;border-radius:20px;box-shadow:0 10px 40px rgba(0,0,0,.08);position:sticky;top:110px;max-height:calc(100vh - 140px);overflow:auto}
+    .cart-section h2{font-size:1.4em;font-weight:900;color:#FF6B6B;margin-bottom:12px}
+    .cart-item{background:linear-gradient(135deg,#FFF9F0,#FFEED9);border-radius:14px;padding:10px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+    .cart-item-name{flex:1;min-width:120px;font-weight:800;color:#2D3436}
+    .cart-item-qty{display:flex;align-items:center;gap:10px}
+    .qty-btn{background:linear-gradient(135deg,#FF6B6B,#FF8E53);color:#fff;border:none;width:34px;height:34px;border-radius:50%;font-size:20px;font-weight:900;cursor:pointer}
+    .cart-item-price{font-weight:900;color:#00B894;font-size:1.1em;min-width:70px;text-align:right}
+    .cart-total{margin-top:14px;padding-top:12px;border-top:3px dashed #FDB827}
+    .total-row{display:flex;justify-content:space-between;font-size:1.4em;font-weight:900;color:#2D3436;margin-bottom:12px}
+    .checkout-btn{width:100%;background:linear-gradient(135deg,#FF6B6B,#FF8E53);color:#fff;border:none;padding:12px;border-radius:20px;font-weight:900;cursor:pointer;box-shadow:0 8px 25px rgba(255,107,107,.4)}
+    .empty-cart{text-align:center;padding:36px 12px;color:#B2BEC3;font-size:1.05em;font-weight:600}
+    .empty-cart::before{content:'🛒';display:block;font-size:3em;margin-bottom:8px;opacity:.6}
+
+    /* PAYMENT MODAL */
+    .payment-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(10px);z-index:2000;justify-content:center;align-items:center;padding:20px;overflow:auto}
+    .payment-modal.active{display:flex}
+    .payment-content{background:#fff;border-radius:22px;padding:20px;max-width:480px;width:100%;text-align:center;box-shadow:0 20px 80px rgba(0,0,0,.45);max-height:90vh;overflow:auto}
+    /* paymentMain and successAnimation are present now */
+    .payment-header h2{font-size:1.4em;font-weight:900;color:#FF6B6B;margin-bottom:8px}
+    .payment-amount{font-size:2em;font-weight:900;color:#00B894;margin-bottom:14px;animation:pulse 2s infinite}
+    .qr-container{background:linear-gradient(135deg,#FFF9F0,#FFEED9);padding:12px;border-radius:14px;margin-bottom:12px;border:3px dashed #FDB827;display:flex;justify-content:center;align-items:center}
+    #paymentQR{display:inline-block;max-width:100%}
+    #paymentQR img{max-width:220px;width:100%;height:auto}
+    .payment-instructions{color:#636E72;margin-bottom:10px;font-weight:700}
+    .upi-id{background:linear-gradient(135deg,#FF6B6B,#FF8E53);color:#fff;padding:8px 12px;border-radius:12px;font-family:monospace;font-weight:800;display:inline-block;margin-bottom:12px}
+    .payment-actions{display:flex;gap:10px;flex-direction:column}
+    .payment-btn{width:100%;padding:12px;border-radius:12px;font-weight:800;cursor:pointer;border:none}
+    .confirm-payment-btn{background:linear-gradient(135deg,#00B894,#00D2A0);color:#fff}
+    .cancel-payment-btn{background:#DFE6E9;color:#2D3436}
+    .payment-divider{display:flex;align-items:center;margin:14px 0;color:#B2BEC3;font-weight:600}
+    .payment-divider::before,.payment-divider::after{content:'';flex:1;height:2px;background:linear-gradient(to right,transparent,#DFE6E9,transparent)}
+    .payment-divider span{padding:0 12px;font-size:.9em}
+
+    /* success */
+    .success-animation{display:none;text-align:center}
+    .success-animation.active{display:block}
+    .success-icon{font-size:3.5em;margin-bottom:12px;animation:successPop .6s}
+    @keyframes successPop{0%{transform:scale(0);opacity:0}50%{transform:scale(1.15)}100%{transform:scale(1);opacity:1}}
+
+    /* particles */
+    .particle{position:fixed;pointer-events:none;z-index:9999;animation:float-up 3s ease-out forwards}
+    @keyframes float-up{0%{transform:translateY(0) rotate(0);opacity:1}100%{transform:translateY(-100vh) rotate(360deg);opacity:0}}
+
+    /* RAMAN CALENDAR */
+    .page-header{text-align:center;margin-bottom:22px}
+    .page-header h1{font-size:clamp(1.6em,4vw,2.4em);font-weight:900;background:linear-gradient(135deg,#FF6B6B,#FDB827);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px}
+    .calendar-controls{display:flex;justify-content:space-between;align-items:center;background:#fff;padding:12px;border-radius:14px;margin-bottom:16px;box-shadow:0 8px 20px rgba(0,0,0,.08);flex-wrap:wrap;gap:10px}
+    .nav-btn{background:linear-gradient(135deg,#4ECDC4,#44A08D);color:#fff;border:none;padding:8px 12px;border-radius:12px;font-weight:800;cursor:pointer}
+    .calendar-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+    .day-card{background:#fff;border-radius:14px;padding:14px;box-shadow:0 8px 30px rgba(0,0,0,.06);transition:all .25s}
+    .day-card.today{border:3px solid #FDB827;transform:scale(1.02);box-shadow:0 18px 50px rgba(253,184,39,.18)}
+    .day-header{font-size:1.1em;font-weight:900;color:#FF6B6B;margin-bottom:6px}
+    .day-date{color:#636E72;margin-bottom:10px;font-weight:700}
+    .meal-title{font-weight:900;color:#00B894}
+    .meal-items{color:#636E72;font-weight:700;line-height:1.6}
+
+    @media(max-width:768px){
+      .hero-card{min-height:260px;padding:20px}
+      .menu-grid{grid-template-columns:1fr}
+      .cart-section{position:relative;top:0;max-height:none}
+      .payment-content{padding:16px}
+      #paymentQR img{max-width:180px}
+      .qr-container{padding:10px}
+      .nav-btn{padding:8px 10px}
+    }
+
+    /* scrollbar */
+    ::-webkit-scrollbar{width:10px}
+    ::-webkit-scrollbar-track{background:#FFE5B4;border-radius:10px}
+    ::-webkit-scrollbar-thumb{background:linear-gradient(135deg,#FF6B6B,#FF8E53);border-radius:10px}
+
+    /* -----------------------------
+       Additions: Order History + Diet Chat modal styles
+       Keep subtle and consistent with current theme
+       ----------------------------- */
+    .overlay-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(6px);z-index:3000;justify-content:center;align-items:center;padding:18px}
+    .overlay-modal.active{display:flex}
+    .overlay-panel{background:#fff;border-radius:18px;padding:16px;max-width:920px;width:100%;box-shadow:0 30px 80px rgba(0,0,0,0.35);max-height:85vh;overflow:auto}
+    .overlay-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+    .orders-list{display:flex;flex-direction:column;gap:10px}
+    .order-card{background:linear-gradient(135deg,#FFF9F0,#FFEED9);padding:12px;border-radius:12px;display:flex;justify-content:space-between;align-items:flex-start;gap:12px;box-shadow:0 10px 30px rgba(0,0,0,.06)}
+    .order-meta{color:#636E72;font-weight:700;font-size:0.95em}
+    .small-btn{background:transparent;border:1px solid #FDB827;padding:8px 12px;border-radius:12px;cursor:pointer;font-weight:800}
+    /* Chat UI styles */
+    .chat-area{display:flex;flex-direction:column;gap:10px;height:64vh}
+    .chat-messages{flex:1;overflow:auto;padding:12px;display:flex;flex-direction:column;gap:10px}
+    .chat-msg{max-width:78%;padding:10px 12px;border-radius:12px;line-height:1.4}
+    .chat-msg.user{align-self:flex-end;background:linear-gradient(135deg,#FF6B6B,#FF8E53);color:#fff}
+    .chat-msg.ai{align-self:flex-start;background:#F7FAFF;color:#0b1220;border:1px solid #E6F0FF}
+    .chat-input-row{display:flex;gap:10px}
+    .chat-input{flex:1;padding:10px;border-radius:12px;border:1px solid #ECECEC}
+    .chip{background:#FFF9F0;padding:6px 10px;border-radius:999px;cursor:pointer;border:1px solid #FDE7C7;font-size:13px}
+  </style>
+</head>
+<body>
+  <!-- shapes -->
+  <div class="shape shape1"></div>
+  <div class="shape shape2"></div>
+  <div class="shape shape3"></div>
+
+  <!-- LOGIN -->
+  <div id="loginPage" class="login-page">
+    <div class="login-box">
+      <h1>🍽️ Mess Mate</h1>
+      <p>Delicious Food, Happy You!</p>
+      <button class="google-btn" id="signInBtn">
+        <!-- google svg (kept short) -->
+        <svg width="20" height="20" viewBox="0 0 20 20"><path fill="#4285F4" d="M19.6 10.23c0-.82-.1-1.42-.25-2.05H10v3.72h5.5c-.15.96-.74 2.31-2.04 3.22v2.45h3.16c1.89-1.73 2.98-4.3 2.98-7.34z"/><path fill="#34A853" d="M13.46 15.13c-.83.59-1.96 1-3.46 1-2.64 0-4.88-1.74-5.68-4.15H1.07v2.52C2.72 17.75 6.09 20 10 20c2.7 0 4.96-.89 6.62-2.42l-3.16-2.45z"/><path fill="#FBBC05" d="M3.99 10c0-.69.12-1.35.32-1.97V5.51H1.07A9.973 9.973 0 000 10c0 1.61.39 3.14 1.07 4.49l3.24-2.52c-.2-.62-.32-1.28-.32-1.97z"/><path fill="#EA4335" d="M10 3.88c1.88 0 3.13.81 3.85 1.48l2.84-2.76C14.96.99 12.7 0 10 0 6.09 0 2.72 2.25 1.07 5.51l3.24 2.52C5.12 5.62 7.36 3.88 10 3.88z"/></svg>
+        Sign in with Google
+      </button>
+      <div class="login-hint">Use your @iiitnr.edu.in or whitelisted Gmail account</div>
+      <div id="errorMessage" class="error-message" role="alert"></div>
+    </div>
+  </div>
+
+  <!-- APP -->
+  <div id="app" class="app">
+    <nav class="navbar">
+      <h1 id="navLogo">🍽️ Mess Mate</h1>
+      <div class="nav-actions">
+        <span class="user-email" id="userEmail"></span>
+        <!-- NEW: Order History & Dietician buttons (keeps visual language) -->
+        <button id="orderHistoryBtn" class="nav-small-btn" title="View your orders">Order History</button>
+        <button id="dieticianBtn" class="nav-small-btn" title="Ask the AI dietician">Dietician</button>
+        <button class="logout-btn" id="logoutBtn">Logout</button>
+      </div>
+    </nav>
+
+    <main>
+      <!-- Landing -->
+      <section id="landingPage" class="landing-page">
+        <h1 class="hero-title">Welcome to Mess Mate! 🎉</h1>
+        <p class="hero-subtitle">Your favorite campus food, just a tap away</p>
+
+        <div class="hero-cards">
+          <div class="hero-card" id="dineInCard">
+            <div>
+              <div class="card-icon">🍕</div>
+              <h2 class="card-title">Dine-In Service</h2>
+              <p class="card-description">Browse our delicious menu, customize your order, and enjoy seamless payment. Your food, your way!</p>
+            </div>
+            <button class="card-cta">Order Now →</button>
+          </div>
+
+          <div class="hero-card" id="ramanMessCard">
+            <div>
+              <div class="card-icon">📅</div>
+              <h2 class="card-title">Raman Mess</h2>
+              <p class="card-description">Check out this week's mess menu. Plan your meals with daily breakfast, lunch, snacks & dinner!</p>
+            </div>
+            <button class="card-cta">View Calendar →</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Dine-In -->
+      <section id="dineInPage" class="dine-in-page">
+        <button class="back-btn" id="backFromDineIn">← Back to Home</button>
+        <div class="dine-in-container">
+          <div class="menu-section">
+            <div id="menuItems"></div>
+          </div>
+          <aside class="cart-section">
+            <h2>🛒 Your Cart</h2>
+            <div id="cartItems"></div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- Raman -->
+      <section id="ramanPage" class="raman-page">
+        <button class="back-btn" id="backFromRaman">← Back to Home</button>
+        <div class="page-header">
+          <h1>📅 Raman Mess Calendar</h1>
+          <p>This week's delicious meal schedule</p>
+        </div>
+        <div class="calendar-controls">
+          <div class="week-nav">
+            <button class="nav-btn" id="prevWeek">← Previous</button>
+            <button class="nav-btn" id="nextWeek">Next →</button>
+          </div>
+          <div class="current-week" id="currentWeek">This Week</div>
+        </div>
+        <div class="calendar-grid" id="calendarGrid"></div>
+      </section>
+    </main>
+  </div>
+
+  <!-- PAYMENT MODAL (unchanged) -->
+  <div id="paymentModal" class="payment-modal" aria-hidden="true" role="dialog">
+    <div class="payment-content">
+      <!-- MAIN PAYMENT VIEW -->
+      <div id="paymentMain">
+        <div class="payment-header">
+          <h2>💳 Scan to Pay</h2>
+          <div class="payment-amount" id="paymentAmount">₹0</div>
+        </div>
+
+        <div class="qr-container">
+          <div id="paymentQR"></div>
+        </div>
+
+        <div class="payment-instructions"><strong>Scan this QR code</strong> with any UPI app<br>(Google Pay, PhonePe, Paytm, etc.)</div>
+
+        <div class="upi-id" id="upiIdDisplay">shataksha45@okicici</div>
+
+        <div class="payment-actions">
+          <button class="payment-btn cancel-payment-btn" onclick="closePaymentModal()">Cancel</button>
+          <button class="payment-btn confirm-payment-btn" onclick="confirmPayment()">I've Paid ✓</button>
+        </div>
+
+        <div class="payment-note">Click "I've Paid" after completing payment</div>
+
+        <div class="payment-divider"><span>OR</span></div>
+
+        <div class="razorpay-container">
+          <button class="razorpay-btn" onclick="openRazorpay()">Pay with Razorpay (Test)</button>
+        </div>
+      </div>
+
+      <!-- SUCCESS VIEW (REPLACED: has Done & Close) -->
+      <div id="successAnimation" class="success-animation" aria-hidden="true" style="display:none; padding:18px;">
+        <div class="success-icon">✅</div>
+        <div class="success-message">
+          <h3>Payment received!</h3>
+          <p>Thanks — your order is being prepared.</p>
+        </div>
+
+        <!-- A clear button so user can dismiss the modal after payment -->
+        <div style="margin-top:18px; display:flex; gap:10px; justify-content:center;">
+          <button id="paymentDoneBtn" class="payment-btn confirm-payment-btn" type="button">Done</button>
+          <button id="paymentCloseBtn" class="payment-btn cancel-payment-btn" type="button">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NEW: Order History Modal -->
+  <div id="orderHistoryModal" class="overlay-modal" aria-hidden="true" role="dialog">
+    <div class="overlay-panel">
+      <div class="overlay-header">
+        <h2>🧾 Your Order History</h2>
+        <div style="display:flex;gap:10px;align-items:center">
+          <button id="exportOrders" class="small-btn" title="Export orders JSON">Export JSON</button>
+          <button id="closeOrdersModal" class="small-btn">Close</button>
+        </div>
+      </div>
+      <div id="ordersContainer" class="orders-list">
+        <div class="order-meta">Loading orders…</div>
+      </div>
+      <div style="margin-top:12px;color:#636E72;font-weight:700" id="ordersFooter"></div>
+    </div>
+  </div>
+
+  <!-- NEW: Dietician Chat Modal -->
+  <div id="dietChatModal" class="overlay-modal" aria-hidden="true" role="dialog">
+    <div class="overlay-panel">
+      <div class="overlay-header">
+        <h2>🤖 Dietician — Personal Assistant</h2>
+        <div style="display:flex;gap:10px;align-items:center">
+          <span class="order-meta" id="chatModeLabel">Mode: offline fallback</span>
+          <button id="closeChatModal" class="small-btn">Close</button>
+        </div>
+      </div>
+
+      <div class="chat-area">
+        <div class="chat-messages" id="chatMessages" aria-live="polite"></div>
+
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <div class="chip" data-prompt="Low-carb breakfast suggestions">Low-carb breakfast</div>
+          <div class="chip" data-prompt="High-protein vegetarian dinner ideas">Protein veg dinner</div>
+          <div class="chip" data-prompt="Healthy snacks under 150 kcal">Snacks &lt;150 kcal</div>
+          <div class="chip" data-prompt="How many calories in 1 cup cooked rice?">Calories in rice</div>
+        </div>
+
+        <div class="chat-input-row">
+          <input id="chatInput" class="chat-input" type="text" placeholder="Ask the dietician (e.g., '1500 kcal veg plan')">
+          <button id="chatSendBtn" class="nav-small-btn">Send</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- libs: Razorpay first, QR lib, Firebase -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+  <script>
+  /**************************************************************
+   * Your original app code (untouched) lives below - I only
+   * appended the Order History + Dietician features and a few
+   * small UI hooks. Keep everything else as-is.
+   **************************************************************/
+
+  /***********************
+   * Configuration
+   ***********************/
+  const firebaseConfig = {
+    apiKey: "AIzaSyBD5-K6SdhPlbGIwX9fFEruf_1nU5QFt8M",
+    authDomain: "mess-mate-2.firebaseapp.com",
+    projectId: "mess-mate-2",
+    storageBucket: "mess-mate-2.firebasestorage.app",
+    messagingSenderId: "39989606423",
+    appId: "1:39989606423:web:b16c5cbd285523de888452",
+    measurementId: "G-V59NZ0Y3K8"
+  };
+  const RAZORPAY_KEY = 'rzp_test_1DP5mmOlF5G5ag';
+  const UPI_ID = 'shataksha45@okicici';
+
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+  const auth = firebase.auth();
+
+  /***********************
+   * (Existing data and UI code...)
+   * -- I intentionally did not modify the next ~900 lines of your original code.
+   * -- For brevity I will re-include your original app code below exactly as provided,
+   *    but then follow it with the new features' implementation.
+   ***********************/
+
+  /* -------------------------
+     (BEGIN: existing original code copy)
+     - This section reproduces your original code unchanged so the app runs exactly
+       as before. (Menu, cart, checkout, calendar, auth, etc.)
+     ------------------------- */
+
+  // (I include your original large script here verbatim so nothing breaks.)
+  // For readability, I'm placing the rest of your original code exactly as you posted it.
+  // ---- BEGIN ORIGINAL CODE ----
+
+  /***********************
+   * Demo Menu & Raman Data
+   ***********************/
+  const menuDataFull = {
+    "🍜 Maggi & Noodles":[
+      {name:"Maggi Regular",price:28,emoji:"🍜"},
+      {name:"Maggi Veg",price:35,emoji:"🥬"},
+      {name:"Maggi Egg",price:40,emoji:"🥚"},
+      {name:"Maggi Chicken",price:50,emoji:"🍗"},
+      {name:"Maggi Paneer",price:50,emoji:"🧀"},
+      {name:"Maggi with Cheese",price:15,emoji:"🧀"},
+      {name:"Veg Noodles",price:28,emoji:"🍝"},
+      {name:"Egg Noodles",price:35,emoji:"🥚"},
+      {name:"Paneer Noodles",price:50,emoji:"🧀"},
+      {name:"Chicken Noodles",price:50,emoji:"🍗"}
+    ],
+    "🌶️ Spicy Delights":[
+      {name:"Manchurian Veg",price:40,emoji:"🥟"},
+      {name:"Manchurian Chicken",price:60,emoji:"🍗"},
+      {name:"Chilli Paneer",price:80,emoji:"🌶️"},
+      {name:"Chilli Chicken",price:100,emoji:"🔥"},
+      {name:"Chilli Corn",price:80,emoji:"🌽"},
+      {name:"Chilli Baby Corn",price:80,emoji:"🌽"}
+    ],
+    "🌯 Wraps & Sandwiches":[
+      {name:"Roll Veg",price:30,emoji:"🌯"},
+      {name:"Roll Egg",price:35,emoji:"🥚"},
+      {name:"Roll Paneer",price:40,emoji:"🧀"},
+      {name:"Roll Chicken",price:50,emoji:"🍗"},
+      {name:"Sandwich Veg",price:25,emoji:"🥪"},
+      {name:"Sandwich Paneer",price:35,emoji:"🥪"},
+      {name:"Sandwich Chicken",price:45,emoji:"🥪"},
+      {name:"Sandwich Corn",price:40,emoji:"🥪"}
+    ],
+    "🫓 Indian Breads":[
+      {name:"Roti Plane",price:5,emoji:"🫓"},
+      {name:"Roti Butter",price:10,emoji:"🫓"},
+      {name:"Paratha Plane",price:15,emoji:"🫓"},
+      {name:"Paratha Aloo",price:25,emoji:"🥔"},
+      {name:"Paratha Paneer",price:30,emoji:"🧀"},
+      {name:"Paratha Gobi",price:30,emoji:"🥦"},
+      {name:"With Curd",price:10,emoji:"🥛"}
+    ],
+    "🍚 Rice Specials":[
+      {name:"Fried Rice Veg",price:40,emoji:"🍚"},
+      {name:"Fried Rice Egg",price:50,emoji:"🥚"},
+      {name:"Fried Rice Paneer",price:60,emoji:"🧀"},
+      {name:"Fried Rice Chicken",price:60,emoji:"🍗"}
+    ],
+    "🍗 Non-Veg Curries":[
+      {name:"Chicken Butter Masala (2Pc)",price:120,emoji:"🍛"},
+      {name:"Chicken Kadahi (2Pc)",price:100,emoji:"🍲"},
+      {name:"Chicken Masala (2Pc)",price:100,emoji:"🍛"}
+    ],
+    "🥘 Veg Curries":[
+      {name:"Paneer Butter Masala",price:90,emoji:"🧀"},
+      {name:"Paneer Kadahi",price:90,emoji:"🫕"},
+      {name:"Paneer Sahi",price:90,emoji:"🧀"},
+      {name:"Chana Masala",price:60,emoji:"🫘"},
+      {name:"Dal Tadka",price:50,emoji:"🥘"}
+    ],
+    "☕ Beverages":[
+      {name:"Tea",price:10,emoji:"☕"},
+      {name:"Coffee",price:12,emoji:"☕"},
+      {name:"Cold Drink Small",price:10,emoji:"🥤"},
+      {name:"Cold Drink Medium",price:20,emoji:"🥤"},
+      {name:"Cold Drink Large",price:30,emoji:"🥤"}
+    ]
+  };
+
+  const ramanMenuData = {
+    weekStart: new Date(),
+    days: {
+      "Monday": { breakfast: ["Idli Sambar 🍚","Chutney 🥣","Tea/Coffee ☕"], lunch: ["Rice 🍚","Dal 🥘","Aloo Gobhi 🥔","Roti 🫓","Salad 🥗"], snacks: ["Samosa 🥟","Green Chutney 🥣","Tea ☕"], dinner: ["Chapati 🫓","Rajma 🫘","Rice 🍚","Raita 🥛"]},
+      "Tuesday": { breakfast: ["Poha 🍛","Jalebi 🍩","Tea/Coffee ☕"], lunch: ["Rice 🍚","Dal Fry 🥘","Mix Veg 🥬","Chapati 🫓","Pickle 🥒"], snacks: ["Bread Pakora 🍞","Sauce 🍅","Tea ☕"], dinner: ["Roti 🫓","Paneer Butter Masala 🧀","Rice 🍚","Salad 🥗"]},
+      "Wednesday": { breakfast: ["Upma 🍛","Banana 🍌","Tea/Coffee ☕"], lunch: ["Chole Bhature 🫓","Onion 🧅","Pickle 🥒"], snacks: ["Veg Cutlet 🥟","Chutney 🥣","Tea ☕"], dinner: ["Chapati 🫓","Dal Makhani 🥘","Jeera Rice 🍚"]},
+      "Thursday": { breakfast: ["Aloo Paratha 🥔","Curd 🥛","Tea/Coffee ☕"], lunch: ["Rice 🍚","Kadhi 🥘","Bhindi Masala 🌶️","Roti 🫓"], snacks: ["Pav Bhaji 🍞","Tea ☕"], dinner: ["Chapati 🫓","Chana Masala 🫘","Rice 🍚","Raita 🥛"]},
+      "Friday": { breakfast: ["Dosa 🥞","Sambar 🥘","Chutney 🥣","Tea/Coffee ☕"], lunch: ["Veg Biryani 🍛","Raita 🥛","Papad 🍘"], snacks: ["Maggi 🍜","Tea ☕"], dinner: ["Roti 🫓","Palak Paneer 🥬","Rice 🍚","Dal 🥘"]},
+      "Saturday": { breakfast: ["Bread Butter Jam 🍞","Boiled Eggs 🥚","Tea/Coffee ☕"], lunch: ["Rice 🍚","Dal 🥘","Cabbage 🥬","Chapati 🫓","Curd 🥛"], snacks: ["Sandwich 🥪","Sauce 🍅","Tea ☕"], dinner: ["Chapati 🫓","Soya Chunk Curry 🍛","Rice 🍚"]},
+      "Sunday": { breakfast: ["Puri Sabji 🫓","Halwa 🍮","Tea/Coffee ☕"], lunch: ["Special Thali 🍽️","Rice 🍚","Dal 🥘","Paneer 🧀","Roti 🫓","Sweet 🍰"], snacks: ["Pakora 🥟","Chutney 🥣","Tea ☕"], dinner: ["Chapati 🫓","Mix Veg 🥬","Rice 🍚","Kheer 🍮"]}
+    }
+  };
+
+  /***********************
+   * App state
+   ***********************/
+  let cart = {};
+  let currentWeekOffset = 0;
+  let currentOrderAmount = 0;
+
+  /***********************
+   * Ensure Razorpay loaded (log)
+   ***********************/
+  window.addEventListener('load', () => {
+    if (typeof Razorpay === 'undefined') {
+      console.warn('Razorpay SDK not loaded!');
+    } else {
+      console.log('Razorpay SDK loaded ✓');
+    }
+  });
+
+  /***********************
+   * Authentication
+   ***********************/
+  const allowedEmails = [
+    'meenakshi6507@gmail.com',
+    'piyushgupta6190@gmail.com',
+    'abhijeetthkr1122@gmail.com',
+    'aarnatiwari1208@gmail.com',
+    'ishaanpatel497@gmail.com'
+  ];
+
+  document.getElementById('signInBtn').addEventListener('click', async () => {
+    const errorDiv = document.getElementById('errorMessage');
+    errorDiv.style.display = 'none';
+    errorDiv.textContent = '';
+    try {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      const result = await auth.signInWithPopup(provider);
+      const email = result.user.email || '';
+      const isCollegeEmail = email.endsWith('@iiitnr.edu.in');
+      const isWhitelisted = allowedEmails.includes(email);
+      if (!isCollegeEmail && !isWhitelisted) {
+        errorDiv.textContent = 'You are not authorized to access this app';
+        errorDiv.style.display = 'block';
+        await auth.signOut();
+      }
+    } catch (err) {
+      console.error('Sign-in error', err);
+      document.getElementById('errorMessage').textContent = 'Sign in failed: ' + (err.message || err);
+      document.getElementById('errorMessage').style.display = 'block';
+    }
+  });
+
+  document.getElementById('logoutBtn').addEventListener('click', () => auth.signOut());
+
+  auth.onAuthStateChanged(user => {
+    if (user) {
+      const email = user.email || '';
+      const isCollegeEmail = email.endsWith('@iiitnr.edu.in');
+      const isWhitelisted = allowedEmails.includes(email);
+      if (isCollegeEmail || isWhitelisted) {
+        document.getElementById('loginPage').style.display = 'none';
+        document.getElementById('app').style.display = 'block';
+        document.getElementById('userEmail').textContent = email;
+        showLandingPage();
+      } else {
+        document.getElementById('loginPage').style.display = 'flex';
+        document.getElementById('app').style.display = 'none';
+      }
+    } else {
+      document.getElementById('loginPage').style.display = 'flex';
+      document.getElementById('app').style.display = 'none';
+    }
+  });
+
+  /***********************
+   * Navigation & UI
+   ***********************/
+  document.getElementById('navLogo').addEventListener('click', showLandingPage);
+  document.getElementById('dineInCard').addEventListener('click', showDineInPage);
+  document.getElementById('ramanMessCard').addEventListener('click', showRamanPage);
+  document.getElementById('backFromDineIn').addEventListener('click', showLandingPage);
+  document.getElementById('backFromRaman').addEventListener('click', showLandingPage);
+
+  function showLandingPage(){ document.getElementById('landingPage').style.display='block'; document.getElementById('dineInPage').style.display='none'; document.getElementById('ramanPage').style.display='none'; }
+  function showDineInPage(){ document.getElementById('landingPage').style.display='none'; document.getElementById('dineInPage').style.display='block'; document.getElementById('ramanPage').style.display='none'; displayMenu(); updateCart(); }
+  function showRamanPage(){ document.getElementById('landingPage').style.display='none'; document.getElementById('dineInPage').style.display='none'; document.getElementById('ramanPage').style.display='block'; displayCalendar(); }
+
+  /***********************
+   * Menu & Cart logic
+   ***********************/
+  function displayMenu(){
+    const menuDiv = document.getElementById('menuItems');
+    let html = '';
+    for(const category in menuDataFull){
+      html += `<div class="category"><h2>${category}</h2><div class="menu-grid">`;
+      menuDataFull[category].forEach(item=>{
+        // safe escape
+        const safeName = item.name.replace(/'/g,"\\'");
+        html += `<div class="menu-item">
+                  <div class="item-name">${item.emoji} ${item.name}</div>
+                  <div class="item-price">₹${item.price}</div>
+                  <button class="add-btn" data-name="${safeName}" data-price="${item.price}">Add to Cart +</button>
+                 </div>`;
+      });
+      html += `</div></div>`;
+    }
+    menuDiv.innerHTML = html;
+    // attach listeners (avoids inline event problems)
+    document.querySelectorAll('.add-btn').forEach(btn=>{
+      btn.addEventListener('click', (e)=>{
+        const name = e.currentTarget.getAttribute('data-name');
+        const price = Number(e.currentTarget.getAttribute('data-price'));
+        addToCartByButton(e.currentTarget, name, price);
+      });
+    });
+  }
+
+  // safe button-aware addToCart
+  function addToCartByButton(btn, itemName, price){
+    if (cart[itemName]) cart[itemName].quantity++;
+    else cart[itemName] = { price, quantity: 1 };
+    updateCart();
+    // small button pop
+    btn.style.transform = 'scale(.95)';
+    setTimeout(()=> btn.style.transform = '', 120);
+  }
+
+  // Update quantity from UI buttons
+  window.updateQuantity = function(itemName, change){
+    if(cart[itemName]){
+      cart[itemName].quantity += change;
+      if(cart[itemName].quantity <= 0) delete cart[itemName];
+      updateCart();
+    }
+  };
+
+  function calculateTotal(){
+    let total = 0;
+    for(const k in cart) total += cart[k].price * cart[k].quantity;
+    return total;
+  }
+
+  function updateCart(){
+    const cartDiv = document.getElementById('cartItems');
+    if(Object.keys(cart).length === 0){
+      cartDiv.innerHTML = '<div class="empty-cart">Your cart is empty<br>Start adding delicious items!</div>';
+      return;
+    }
+    let html = '';
+    for(const key in cart){
+      const d = cart[key];
+      const safeKey = key.replace(/'/g,"\\'");
+      html += `<div class="cart-item">
+                 <div class="cart-item-name">${key}</div>
+                 <div class="cart-item-qty">
+                   <button class="qty-btn" onclick="updateQuantity('${safeKey}', -1)">−</button>
+                   <span>${d.quantity}</span>
+                   <button class="qty-btn" onclick="updateQuantity('${safeKey}', 1)">+</button>
+                 </div>
+                 <div class="cart-item-price">₹${d.price * d.quantity}</div>
+               </div>`;
+    }
+    const total = calculateTotal();
+    html += `<div class="cart-total">
+               <div class="total-row"><span>Total:</span><span>₹${total}</span></div>
+               <button class="checkout-btn" onclick="checkout()">🎉 Checkout - Pay ₹${total}</button>
+             </div>`;
+    cartDiv.innerHTML = html;
+  }
+
+  /***********************
+   * Checkout / Payment modal + QR generation
+   ***********************/
+  function checkout(){
+    const total = calculateTotal();
+    if(total === 0) { alert('Your cart is empty! 🛒'); return; }
+    currentOrderAmount = total;
+    openPaymentModal(total);
+  }
+
+  function openPaymentModal(amount){
+    console.log('openPaymentModal called with amount:', amount);
+    const modal = document.getElementById('paymentModal');
+    const amountDisplay = document.getElementById('paymentAmount');
+    const mainContent = document.getElementById('paymentMain');
+    const successContent = document.getElementById('successAnimation');
+
+    if(!modal || !amountDisplay){
+      console.error('Payment modal DOM missing!');
+      alert('Payment UI failed to load. Refresh and try again.');
+      return;
+    }
+
+    // Reset views
+    if(mainContent) mainContent.style.display = 'block';
+    if(successContent) { successContent.style.display = 'none'; successContent.classList.remove('active'); successContent.setAttribute('aria-hidden','true'); }
+
+    amountDisplay.textContent = `₹${amount}`;
+    // UPI string
+    const upiString = `upi://pay?pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURIComponent('Mess Mate')}&am=${encodeURIComponent(amount)}&cu=INR`;
+
+    // Generate QR
+    const qrContainer = document.getElementById('paymentQR');
+    qrContainer.innerHTML = '';
+    try{
+      // qrcodejs uses QRCode constructor
+      new QRCode(qrContainer, {
+        text: upiString,
+        width: 220,
+        height: 220,
+        colorDark: '#2D3436',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.H
+      });
+      console.log('QR generated');
+    }catch(err){
+      console.error('QR error', err);
+    }
+
+    // set up UPI id text
+    const upiEl = document.getElementById('upiIdDisplay');
+    if(upiEl) upiEl.textContent = UPI_ID;
+
+    modal.classList.add('active');
+    modal.setAttribute('aria-hidden','false');
+    document.body.style.overflow = 'hidden';
+    console.log('Payment modal opened');
+  }
+
+  function closePaymentModal(){
+    const modal = document.getElementById('paymentModal');
+    if(modal){
+      modal.classList.remove('active');
+      modal.setAttribute('aria-hidden','true');
+      document.body.style.overflow = 'auto';
+      // reset success/main
+      const mainContent = document.getElementById('paymentMain');
+      const successContent = document.getElementById('successAnimation');
+      if(mainContent) mainContent.style.display = 'block';
+      if(successContent) { successContent.style.display = 'none'; successContent.classList.remove('active'); successContent.setAttribute('aria-hidden','true'); }
+      // clear QR
+      const qr = document.getElementById('paymentQR'); if (qr) qr.innerHTML = '';
+    }
+  }
+
+  /***********************
+   * Payment handlers (REPLACED: robust, non-blocking)
+   ***********************/
+
+  // Helper: generate order id
+  function generateOrderId(){
+    const t = Date.now().toString(36);
+    const r = Math.random().toString(36).slice(2,8);
+    return `MM-${t}-${r}`;
+  }
+
+  // Clear QR and reset modal state
+  function _resetPaymentModalDom() {
+    const qr = document.getElementById('paymentQR');
+    if (qr) qr.innerHTML = ''; // remove QR canvas/img
+    document.body.style.overflow = 'auto';
+  }
+
+  // Show success UI and wire Done/Close buttons
+  function showSuccessAnimationAndEnableDone(orderObj) {
+    try {
+      const mainContent = document.getElementById('paymentMain');
+      const successContent = document.getElementById('successAnimation');
+      if (mainContent) mainContent.style.display = 'none';
+      if (successContent) {
+        successContent.style.display = 'block';
+        successContent.classList.add('active');
+        successContent.setAttribute('aria-hidden','false');
+      }
+
+      // Clear cart visually after a short delay (keeps UI responsive)
+      setTimeout(() => {
+        cart = {};
+        updateCart();
+      }, 800);
+
+      // particles/confetti
+      createParticles();
+
+      // wire Done / Close buttons
+      const doneBtn = document.getElementById('paymentDoneBtn');
+      const closeBtn = document.getElementById('paymentCloseBtn');
+      const finish = () => {
+        // close modal, reset DOM, and focus back on app
+        closePaymentModal();
+        _resetPaymentModalDom();
+        if (orderObj) console.log('Order recorded:', orderObj);
+      };
+      if (doneBtn) {
+        doneBtn.onclick = finish;
+      }
+      if (closeBtn) {
+        closeBtn.onclick = finish;
+      }
+
+      // Auto-close after 6s as a fallback
+      setTimeout(() => {
+        if (document.getElementById('paymentModal').classList.contains('active')) {
+          finish();
+        }
+      }, 6000);
+    } catch(e) {
+      console.error('showSuccessAnimationAndEnableDone error', e);
+    }
+  }
+
+  // Manual "I've Paid" flow (UPI QR manual)
+  async function confirmPayment(){
+    try {
+      // create a lightweight order object (client-side)
+      const user = (auth && auth.currentUser) ? auth.currentUser : null;
+      const items = Object.keys(cart).map(name => ({ name, price: cart[name].price, quantity: cart[name].quantity }));
+      const total = currentOrderAmount || calculateTotal();
+      const orderId = generateOrderId();
+      const orderObj = {
+        id: orderId,
+        userEmail: user ? user.email : 'guest',
+        items,
+        total,
+        createdAt: new Date().toISOString(),
+        status: 'Pending (Manual)',
+        paymentMethod: 'UPI-Manual',
+        paymentInfo: { upiId: UPI_ID }
+      };
+
+      // Try to save to Firestore if db exists (safe-guarded)
+      if (typeof db !== 'undefined' && db) {
+        try {
+          const payload = Object.assign({}, orderObj);
+          if (firebase && firebase.firestore && firebase.firestore.FieldValue) {
+            payload.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+          }
+          await db.collection('orders').doc(orderId).set(payload);
+          console.log('Order saved to Firestore (manual UPI):', orderId);
+        } catch(saveErr) {
+          console.warn('Failed saving manual order to Firestore (continuing):', saveErr);
+        }
+      } else {
+        console.log('Firestore not available — skipping save for manual order', orderObj);
+      }
+
+      // Show success UI and enable Done/Close
+      showSuccessAnimationAndEnableDone(orderObj);
+    } catch(err) {
+      console.error('confirmPayment error', err);
+      alert('Something went wrong confirming payment. Check console.');
+    }
+  }
+
+  // Razorpay success handler (called from checkout handler)
+  async function handleRazorpaySuccess(response) {
+    try {
+      const user = (auth && auth.currentUser) ? auth.currentUser : null;
+      const items = Object.keys(cart).map(name => ({ name, price: cart[name].price, quantity: cart[name].quantity }));
+      const total = currentOrderAmount || calculateTotal();
+      const orderId = generateOrderId();
+      const orderObj = {
+        id: orderId,
+        userEmail: user ? user.email : 'guest',
+        items,
+        total,
+        createdAt: new Date().toISOString(),
+        status: 'Paid',
+        paymentMethod: 'Razorpay',
+        paymentInfo: {
+          razorpay_payment_id: response.razorpay_payment_id || null,
+          razorpay_order_id: response.razorpay_order_id || null,
+          razorpay_signature: response.razorpay_signature || null
+        }
+      };
+
+      // Save to Firestore if available
+      if (typeof db !== 'undefined' && db) {
+        try {
+          const payload = Object.assign({}, orderObj);
+          if (firebase && firebase.firestore && firebase.firestore.FieldValue) {
+            payload.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+          }
+          await db.collection('orders').doc(orderId).set(payload);
+          console.log('Order saved to Firestore (Razorpay):', orderId);
+        } catch(saveErr) {
+          console.warn('Failed to save Razorpay order to Firestore (continuing):', saveErr);
+        }
+      } else {
+        console.log('Firestore not available — skipping save for Razorpay order', orderObj);
+      }
+
+      // Show success UI and allow user to close
+      showSuccessAnimationAndEnableDone(orderObj);
+    } catch(e) {
+      console.error('handleRazorpaySuccess error', e);
+      alert('Payment was completed but we encountered an internal error. Check console.');
+    }
+  }
+
+  // Updated openRazorpay to call handleRazorpaySuccess and guard errors
+  function openRazorpay(){
+    const user = (auth && auth.currentUser) ? auth.currentUser : null;
+    if (typeof Razorpay === 'undefined') {
+      alert('Payment system still loading. Try again shortly.');
+      return;
+    }
+    const amountPaise = Math.round((currentOrderAmount || calculateTotal()) * 100);
+    if (amountPaise <= 0) { alert('Cart is empty'); return; }
+
+    const options = {
+      key: RAZORPAY_KEY,
+      amount: amountPaise,
+      currency: 'INR',
+      name: 'Mess Mate',
+      description: 'Canteen Order Payment',
+      handler: function (response) {
+        console.log('Razorpay success handler response', response);
+        // call async success handler (no await here because Razorpay expects quick return)
+        handleRazorpaySuccess(response);
+      },
+      prefill: {
+        name: user ? (user.displayName || '') : '',
+        email: user ? user.email : ''
+      },
+      theme: { color: '#FF6B6B' },
+      modal: {
+        ondismiss: function() {
+          console.log('Razorpay modal dismissed');
+        }
+      }
+    };
+
+    try {
+      const rzp = new Razorpay(options);
+      rzp.on('payment.failed', function(resp){
+        console.error('rzp payment failed', resp);
+        alert('Payment failed. Please try again or use the UPI QR option.');
+      });
+      rzp.open();
+    } catch(err) {
+      console.error('Razorpay open error', err);
+      alert('Payment system error. Try QR code or refresh the page.');
+    }
+  }
+
+  function createParticles(){
+    const emojis = ['🎉','✨','🎊','⭐','💫','🌟'];
+    for(let i=0;i<24;i++){
+      setTimeout(()=>{
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+        p.style.left = (Math.random()*90)+'%';
+        p.style.fontSize = (Math.random()*24+16)+'px';
+        document.body.appendChild(p);
+        setTimeout(()=> p.remove(), 3200);
+      }, i*80);
+    }
+  }
+
+  /***********************
+   * Calendar functions
+   ***********************/
+  function displayCalendar(){
+    const calendarDiv = document.getElementById('calendarGrid');
+    const currentWeekDiv = document.getElementById('currentWeek');
+    const today = new Date();
+    const weekday = today.toLocaleDateString('en-US',{weekday:'long'});
+    // compute weekStart (Monday)
+    const weekStart = new Date(today);
+    const dayIndex = (weekStart.getDay() + 6) % 7; // shift so Monday=0
+    weekStart.setDate(weekStart.getDate() - dayIndex + currentWeekOffset*7);
+    const weekEnd = new Date(weekStart);
+    weekEnd.setDate(weekStart.getDate()+6);
+    currentWeekDiv.textContent = `${weekStart.toLocaleDateString('en-US',{month:'short',day:'numeric'})} - ${weekEnd.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}`;
+
+    const days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+    let html = '';
+    days.forEach((d, idx)=>{
+      const dayDate = new Date(weekStart);
+      dayDate.setDate(weekStart.getDate()+idx);
+      const isToday = currentWeekOffset===0 && d === weekday;
+      const menu = ramanMenuData.days[d] || {breakfast:[], lunch:[], snacks:[], dinner:[]};
+      html += `<div class="day-card ${isToday ? 'today' : ''}">
+               <div class="day-header">${d} ${isToday ? '<span class="today-badge">Today!</span>' : ''}</div>
+               <div class="day-date">${dayDate.toLocaleDateString('en-US',{month:'long',day:'numeric'})}</div>
+               <div class="meal-section"><div class="meal-title">☕ Breakfast</div><div class="meal-items">${menu.breakfast.join(', ')}</div></div>
+               <div class="meal-section"><div class="meal-title">🍛 Lunch</div><div class="meal-items">${menu.lunch.join(', ')}</div></div>
+               <div class="meal-section"><div class="meal-title">🍪 Snacks</div><div class="meal-items">${menu.snacks.join(', ')}</div></div>
+               <div class="meal-section"><div class="meal-title">🍽️ Dinner</div><div class="meal-items">${menu.dinner.join(', ')}</div></div>
+               </div>`;
+    });
+    calendarDiv.innerHTML = html;
+  }
+  document.getElementById('prevWeek').addEventListener('click', ()=>{ currentWeekOffset--; displayCalendar(); });
+  document.getElementById('nextWeek').addEventListener('click', ()=>{ currentWeekOffset++; displayCalendar(); });
+
+  /***********************
+   * Wire page-level interactions
+   ***********************/
+  document.querySelectorAll('.hero-card .card-cta').forEach(btn=>{
+    btn.addEventListener('click',(e)=>{
+      const parent = e.currentTarget.closest('.hero-card');
+      if(parent && parent.id === 'dineInCard') showDineInPage();
+      if(parent && parent.id === 'ramanMessCard') showRamanPage();
+    });
+  });
+
+  // initial render (if logged in already)
+  displayMenu();
+  displayCalendar();
+  if(auth.currentUser) { showLandingPage(); }
+
+  // ---- END ORIGINAL CODE ----
+  /***********************
+   * END: original code block (unchanged)
+   ***********************/
+
+
+  /**************************************************************
+   * NEW FEATURES: Order History and Dietician Chat integration
+   * - Uses existing firebase `db` and `auth`.
+   * - Non-invasive: only wires new UI elements added above.
+   **************************************************************/
+
+  // Helpers
+  function el(id){ return document.getElementById(id); }
+  function formatCurrency(n){ return '₹' + n; }
+  function safeText(s){ return String(s || '').replaceAll('<','&lt;').replaceAll('>','&gt;'); }
+
+  // --- Order History ---
+  const orderHistoryBtn = el('orderHistoryBtn');
+  const orderHistoryModal = el('orderHistoryModal');
+  const ordersContainer = el('ordersContainer');
+  const closeOrdersModal = el('closeOrdersModal');
+  const exportOrdersBtn = el('exportOrders');
+  let unsubscribeOrders = null;
+
+  orderHistoryBtn.addEventListener('click', async () => {
+    const user = auth.currentUser;
+    if(!user){ alert('Please sign in to view order history'); return; }
+    openOrdersModal(user);
+  });
+
+  closeOrdersModal.addEventListener('click', ()=> toggleOrdersModal(false));
+  exportOrdersBtn.addEventListener('click', exportOrdersJSON);
+
+  function toggleOrdersModal(state){
+    if(state) {
+      orderHistoryModal.classList.add('active');
+      orderHistoryModal.setAttribute('aria-hidden','false');
+      document.body.style.overflow = 'hidden';
+    } else {
+      orderHistoryModal.classList.remove('active');
+      orderHistoryModal.setAttribute('aria-hidden','true');
+      document.body.style.overflow = 'auto';
+      // detach snapshot listener if any
+      if(unsubscribeOrders) { unsubscribeOrders(); unsubscribeOrders = null; }
+    }
+  }
+
+  async function openOrdersModal(user){
+    toggleOrdersModal(true);
+    ordersContainer.innerHTML = '<div class="order-meta">Loading orders…</div>';
+    try {
+      const q = db.collection('orders').where('userEmail','==', user.email).orderBy('createdAt','desc');
+      // realtime updates
+      unsubscribeOrders = q.onSnapshot(snapshot => {
+        if(snapshot.empty){
+          ordersContainer.innerHTML = '<div class="order-meta">No orders yet — place an order to see it here.</div>';
+          el('ordersFooter').textContent = '';
+          return;
+        }
+        const docs = [];
+        snapshot.forEach(doc => {
+          const data = doc.data();
+          docs.push(Object.assign({ id: doc.id }, data));
+        });
+        renderOrdersList(docs);
+      }, err => {
+        console.error('orders snapshot err', err);
+        ordersContainer.innerHTML = '<div class="order-meta">Failed to load orders. Check console.</div>';
+      });
+    } catch(e){
+      console.error('openOrdersModal error', e);
+      ordersContainer.innerHTML = '<div class="order-meta">Unable to fetch orders.</div>';
+    }
+  }
+
+  function renderOrdersList(orders){
+    ordersContainer.innerHTML = '';
+    orders.forEach(o=>{
+      const itemsSummary = (o.items || []).map(it => `${safeText(it.name || it)}` + (it.quantity ? ` ×${it.quantity}` : '')).join(', ');
+      const total = o.total || (o.items ? o.items.reduce((s,i)=>s + ((i.price||0) * (i.quantity||1)),0) : 0);
+      const created = o.createdAt && o.createdAt.toDate ? o.createdAt.toDate().toLocaleString() : (o.createdAt || '');
+      const card = document.createElement('div');
+      card.className = 'order-card';
+      card.innerHTML = `<div>
+                          <div style="font-weight:900">Order ${safeText(o.id || o.orderId || '')}</div>
+                          <div class="order-meta">${created}</div>
+                          <div style="margin-top:8px;font-weight:800">${itemsSummary || 'No items'}</div>
+                        </div>
+                        <div style="text-align:right">
+                          <div style="font-weight:900">${formatCurrency(total)}</div>
+                          <div class="order-meta" style="margin-top:8px">${safeText(o.status || '—')}</div>
+                          <div style="margin-top:8px"><button class="small-btn" data-id="${o.id || o.orderId || ''}" data-json='${safeText(JSON.stringify(o))}'>Details</button></div>
+                        </div>`;
+      ordersContainer.appendChild(card);
+    });
+
+    // attach details handlers
+    ordersContainer.querySelectorAll('.small-btn[data-json]').forEach(btn=>{
+      btn.addEventListener('click', (e)=>{
+        const json = e.currentTarget.dataset.json;
+        try {
+          const obj = JSON.parse(json);
+          alert('Order details:\\n' + JSON.stringify(obj, null, 2));
+        } catch(err){
+          alert('Unable to parse order details');
+        }
+      });
+    });
+
+    el('ordersFooter').textContent = `${orders.length} order(s)`;
+  }
+
+  async function exportOrdersJSON(){
+    const user = auth.currentUser;
+    if(!user){ alert('Please sign in to export'); return; }
+    try {
+      const snap = await db.collection('orders').where('userEmail','==', user.email).orderBy('createdAt','desc').get();
+      const arr = [];
+      snap.forEach(doc => arr.push(Object.assign({id: doc.id}, doc.data())));
+      const data = JSON.stringify(arr, null, 2);
+      const blob = new Blob([data], {type:'application/json'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = 'orders-'+(user.uid || 'orders')+'.json'; a.click();
+      URL.revokeObjectURL(url);
+    } catch(e){
+      console.error('exportOrdersJSON', e);
+      alert('Export failed. See console.');
+    }
+  }
+
+  // --- Dietician Chat ---
+  const dieticianBtn = el('dieticianBtn');
+  const dietChatModal = el('dietChatModal');
+  const closeChatModal = el('closeChatModal');
+  const chatMessages = el('chatMessages');
+  const chatInput = el('chatInput');
+  const chatSendBtn = el('chatSendBtn');
+  const chatModeLabel = el('chatModeLabel');
+  const chips = document.querySelectorAll('.chip');
+  let chatUnsubscribe = null;
+  const USE_SERVER_PROXY = false; // set to true if you create /api/diet-chat endpoint
+
+  dieticianBtn.addEventListener('click', async () => {
+    const user = auth.currentUser;
+    if(!user){ alert('Please sign in to chat with the dietician'); return; }
+    openChatModal(user);
+  });
+  closeChatModal.addEventListener('click', ()=> toggleChatModal(false));
+  chatSendBtn.addEventListener('click', sendChatMessage);
+  chatInput.addEventListener('keydown', (e)=> { if(e.key === 'Enter') sendChatMessage(); });
+  chips.forEach(c => c.addEventListener('click', ()=> { chatInput.value = c.dataset.prompt; chatInput.focus(); }));
+
+  function toggleChatModal(state){
+    if(state){
+      dietChatModal.classList.add('active');
+      dietChatModal.setAttribute('aria-hidden','false');
+      document.body.style.overflow = 'hidden';
+      chatModeLabel.textContent = 'Mode: ' + (USE_SERVER_PROXY ? 'server proxy' : 'offline fallback');
+    } else {
+      dietChatModal.classList.remove('active');
+      dietChatModal.setAttribute('aria-hidden','true');
+      document.body.style.overflow = 'auto';
+      if(chatUnsubscribe){ chatUnsubscribe(); chatUnsubscribe = null; }
+    }
+  }
+
+  async function openChatModal(user){
+    toggleChatModal(true);
+    chatMessages.innerHTML = '<div class="order-meta">Loading conversation…</div>';
+    try {
+      const chatRef = db.collection('users').doc(user.uid).collection('dietChats').orderBy('ts','asc');
+      // realtime listener
+      chatUnsubscribe = chatRef.onSnapshot(snapshot => {
+        if(snapshot.empty){
+          // seed greeting if none
+          seedDieticianGreeting(user);
+          chatMessages.innerHTML = '<div class="order-meta">No conversation yet — start by saying hi!</div>';
+          return;
+        }
+        const items = [];
+        snapshot.forEach(doc => items.push(Object.assign({ id: doc.id }, doc.data())));
+        renderChatMessages(items);
+      }, err => {
+        console.error('chat snapshot err', err);
+        chatMessages.innerHTML = '<div class="order-meta">Failed to load chat. Check console.</div>';
+      });
+    } catch(e){
+      console.error('openChatModal', e);
+      chatMessages.innerHTML = '<div class="order-meta">Unable to load chat.</div>';
+    }
+  }
+
+  async function seedDieticianGreeting(user){
+    try {
+      const greeting = { role: 'ai', text: 'Hi — I am your dietician assistant. Tell me your goals (weight loss, muscle gain, maintain) and any food preferences.', ts: Date.now() };
+      await db.collection('users').doc(user.uid).collection('dietChats').add(greeting);
+    } catch(e){ console.warn('seed greeting err', e); }
+  }
+
+  function renderChatMessages(items){
+    chatMessages.innerHTML = '';
+    items.forEach(m=>{
+      const d = document.createElement('div');
+      d.className = 'chat-msg ' + (m.role === 'user' ? 'user' : 'ai');
+      const tsText = m.ts ? (new Date(m.ts).toLocaleString()) : '';
+      d.innerHTML = `<div style="font-weight:900">${m.role === 'user' ? 'You' : 'Dietician'}</div>
+                     <div style="margin-top:6px">${safeText(m.text)}</div>
+                     <div class="order-meta" style="margin-top:6px">${tsText}</div>`;
+      chatMessages.appendChild(d);
+    });
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+
+  async function sendChatMessage(){
+    const text = (chatInput.value || '').trim();
+    if(!text) return;
+    const user = auth.currentUser;
+    if(!user){ alert('Please sign in'); return; }
+    // append user message to Firestore
+    try {
+      const userMsg = { role:'user', text, ts: Date.now() };
+      await db.collection('users').doc(user.uid).collection('dietChats').add(userMsg);
+      chatInput.value = '';
+    } catch(e){
+      console.error('sendChatMessage add user msg', e);
+      alert('Failed to send message. See console.');
+      return;
+    }
+
+    // add provisional AI "Thinking..." message
+    const thinkingRef = await db.collection('users').doc(user.uid).collection('dietChats').add({ role:'ai', text:'Thinking...', ts: Date.now() });
+
+    // attempt server proxy if available
+    if(USE_SERVER_PROXY){
+      try {
+        const res = await fetch('/api/diet-chat', {
+          method:'POST',
+          headers:{ 'Content-Type':'application/json' },
+          body: JSON.stringify({ message: text, userEmail: user.email })
+        });
+        if(res.ok){
+          const data = await res.json();
+          const reply = data.reply || 'Sorry, no reply';
+          // replace Thinking... by adding new doc and removing provisional one
+          await Promise.all([
+            db.collection('users').doc(user.uid).collection('dietChats').doc(thinkingRef.id).delete(),
+            db.collection('users').doc(user.uid).collection('dietChats').add({ role:'ai', text: reply, ts: Date.now() })
+          ]);
+          return;
+        } else {
+          console.warn('server proxy responded not-ok', res.status);
+        }
+      } catch(err){
+        console.warn('server proxy error', err);
+      }
+    }
+
+    // offline fallback: simple rule-based dietician
+    const reply = offlineDietResponse(text);
+    try {
+      // remove Thinking... and write real reply
+      await Promise.all([
+        db.collection('users').doc(user.uid).collection('dietChats').doc(thinkingRef.id).delete(),
+        db.collection('users').doc(user.uid).collection('dietChats').add({ role:'ai', text: reply, ts: Date.now() })
+      ]);
+    } catch(e){
+      console.warn('saving offline reply error', e);
+    }
+  }
+
+  // small rule-based responder (keeps tone helpful/accurate)
+  function offlineDietResponse(userMessage){
+    const msg = (userMessage || '').toLowerCase();
+    if(msg.includes('calorie') || msg.match(/\bcalories\b/) || msg.match(/\bhow many\b/)){
+      return "Calories vary by portion. Rough guide: 1 cup cooked rice ≈ 200 kcal, 1 medium apple ≈ 95 kcal, 100g chicken breast ≈ 165 kcal. Tell me a food and portion and I'll estimate.";
+    }
+    if(msg.includes('vegetarian') || msg.includes('vegan')){
+      return "Vegetarian meal idea: Breakfast — oats + fruit; Lunch — chickpea salad; Dinner — tofu stir-fry with brown rice. Tell me your daily calorie target.";
+    }
+    if(msg.includes('lose') || msg.includes('weight')){
+      return "For weight loss aim for a 300–700 kcal daily deficit depending on activity. Aim for protein ~1.2–1.6 g/kg. Want a sample day at a specific calorie target?";
+    }
+    if(msg.includes('protein')){
+      return "Protein-rich swaps: Greek yogurt, cottage cheese, tofu, lentils, eggs, lean chicken. Try to include protein in each meal (20–30g).";
+    }
+    if(msg.includes('snack')){
+      return "Healthy snack ideas: apple + 1 tbsp peanut butter (~180 kcal), handful of almonds (~160 kcal), carrot sticks + hummus (~120 kcal).";
+    }
+    if(msg.includes('1500') || msg.includes('1500 kcal')){
+      return "Sample 1500 kcal vegetarian day: Breakfast 350 kcal (oats+banana), Lunch 450 kcal (lentil salad+roti), Snack 150 kcal (yogurt+berries), Dinner 550 kcal (paneer veg + small rice). Want exact portions?";
+    }
+    return "Tell me your goal, height, weight, and food preferences (e.g., vegetarian). Or ask for a meal idea or calorie estimate.";
+  }
+
+  /***********************
+   * Clean-up on sign out
+   ***********************/
+  auth.onAuthStateChanged(u => {
+    if(!u){
+      // ensure modals closed and listeners removed
+      if(unsubscribeOrders){ unsubscribeOrders(); unsubscribeOrders = null; }
+      if(chatUnsubscribe){ chatUnsubscribe(); chatUnsubscribe = null; }
+      toggleOrdersModal(false);
+      toggleChatModal(false);
+    }
+  });
+
+  // Small UX: keep chat input focused when modal opens
+  new MutationObserver((mut)=>{
+    const active = dietChatModal.classList.contains('active');
+    if(active) setTimeout(()=> chatInput.focus(), 120);
+  }).observe(dietChatModal, { attributes: true });
+
+  </script>
+</body>
+</html>
